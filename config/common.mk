@@ -90,8 +90,7 @@ PRODUCT_PACKAGES += \
     DSPManager \
     libcyanogen-dsp \
     audio_effects.conf \
-    CMUpdater \
-    CMFileManager
+    CMUpdater
 
 # Extra tools in CM
 PRODUCT_PACKAGES += \
