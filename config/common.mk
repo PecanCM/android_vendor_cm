@@ -95,29 +95,6 @@ PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/bin/compcache:system/bin/compcache \
     vendor/cm/prebuilt/common/bin/handle_compcache:system/bin/handle_compcache
 
-# Nam configuration script
-PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/modelid_cfg.sh:system/bin/modelid_cfg.sh
-
-PRODUCT_COPY_FILES += \
-    vendor/cm/proprietary/Term.apk:system/app/Term.apk
-
-# Copy JNI libarary of Term
-ifeq ($(TARGET_ARCH),arm)
-PRODUCT_COPY_FILES +=  \
-    vendor/cm/proprietary/lib/armeabi/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
-endif
-
-ifeq ($(TARGET_ARCH),mips)
-PRODUCT_COPY_FILES +=  \
-    vendor/cm/proprietary/lib/mips/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
-endif
-
-ifeq ($(TARGET_ARCH),x86)
-PRODUCT_COPY_FILES +=  \
-    vendor/cm/proprietary/lib/x86/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
-endif
-
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
@@ -130,34 +107,25 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/etc/mkshrc:system/etc/mkshrc
 
-# T-Mobile theme engine
-include vendor/cm/config/themes_common.mk
-
 # Required CM packages
 PRODUCT_PACKAGES += \
-    Camera \
-    Development \
     LatinIME \
-    SpareParts \
     Superuser \
     su
 
 # Optional CM packages
 PRODUCT_PACKAGES += \
-    VideoEditor \
-    VoiceDialer \
-    SoundRecorder \
-    Basic
+    Basic \
+    LiveWallpapersPicker
 
 # Custom CM packages
 PRODUCT_PACKAGES += \
     Trebuchet \
-    DSPManager \
+    Camera \
     libcyanogen-dsp \
+    DSPManager \
     audio_effects.conf \
-    CMUpdater \
-    CMFileManager \
-    LockClock
+    CMFileManager
 
 # Extra tools in CM
 PRODUCT_PACKAGES += \
@@ -166,25 +134,7 @@ PRODUCT_PACKAGES += \
     mke2fs \
     tune2fs \
     bash \
-    vim \
-    nano \
-    htop \
-    powertop \
     lsof
-
-# Openssh
-PRODUCT_PACKAGES += \
-    scp \
-    sftp \
-    ssh \
-    sshd \
-    sshd_config \
-    ssh-keygen \
-    start-ssh
-
-# rsync
-PRODUCT_PACKAGES += \
-    rsync
 
 PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
 PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/common
@@ -231,5 +181,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
   ro.cm.version=$(CM_VERSION) \
   ro.modversion=$(CM_VERSION)
 
+# BT config
+PRODUCT_COPY_FILES += \
+    system/bluetooth/data/main.conf:system/etc/bluetooth/main.conf
+
+# T-Mobile theme engine
+include vendor/cm/config/themes_common.mk
 
 -include $(WORKSPACE)/hudson/image-auto-bits.mk
