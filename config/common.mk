@@ -1,5 +1,8 @@
 PRODUCT_BRAND ?= cyanogenmod
 
+SUPERUSER_EMBEDDED := true
+SUPERUSER_PACKAGE_PREFIX := com.android.settings.cyanogenmod.superuser
+
 # To deal with CM9 specifications
 # TODO: remove once all devices have been switched
 ifneq ($(TARGET_BOOTANIMATION_NAME),)
