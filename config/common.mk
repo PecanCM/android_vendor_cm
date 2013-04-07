@@ -134,6 +134,9 @@ PRODUCT_PACKAGES += \
     audio_effects.conf \
     CMFileManager
 
+PRODUCT_PACKAGES += \
+    CellBroadcastReceiver
+
 # Extra tools in CM
 PRODUCT_PACKAGES += \
     openvpn \
