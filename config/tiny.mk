@@ -69,11 +69,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.android.dateformat=MM-dd-yyyy \
     ro.com.android.dataroaming=false
 
-ifneq ($(TARGET_BUILD_VARIANT),eng)
-# Enable ADB authentication
-ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=1
-endif
-
 # Copy over the changelog to the device
 PRODUCT_COPY_FILES += \
     vendor/cm/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
@@ -103,16 +98,6 @@ PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/bin/compcache:system/bin/compcache \
     vendor/cm/prebuilt/common/bin/handle_compcache:system/bin/handle_compcache
 
-# Terminal Emulator
-PRODUCT_COPY_FILES +=  \
-    vendor/cm/proprietary/Term.apk:system/app/Term.apk \
-    vendor/cm/proprietary/lib/armeabi/libjackpal-androidterm4.so:system/lib/libjackpal-androidterm4.so
-
-# Bring in camera effects
-PRODUCT_COPY_FILES +=  \
-    vendor/cm/prebuilt/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
-    vendor/cm/prebuilt/common/media/PFFprec_600.emd:system/media/PFFprec_600.emd
-
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
@@ -129,35 +114,25 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     vendor/cm/prebuilt/common/etc/mkshrc:system/etc/mkshrc
 
-# T-Mobile theme engine
-include vendor/cm/config/themes_common.mk
-
 # Required CM packages
 PRODUCT_PACKAGES += \
-    Camera \
-    Development \
     LatinIME \
     Superuser \
     su
 
 # Optional CM packages
 PRODUCT_PACKAGES += \
-    VideoEditor \
-    VoiceDialer \
-    SoundRecorder \
-    Basic
+    Basic \
+    LiveWallpapersPicker
 
 # Custom CM packages
 PRODUCT_PACKAGES += \
     Trebuchet \
-    DSPManager \
+    Camera \
     libcyanogen-dsp \
+    DSPManager \
     audio_effects.conf \
-    CMWallpapers \
-    Apollo \
-    CMUpdater \
-    CMFileManager \
-    LockClock
+    CMFileManager
 
 PRODUCT_PACKAGES += \
     CellBroadcastReceiver
@@ -169,25 +144,7 @@ PRODUCT_PACKAGES += \
     mke2fs \
     tune2fs \
     bash \
-    vim \
-    nano \
-    htop \
-    powertop \
     lsof
-
-# Openssh
-PRODUCT_PACKAGES += \
-    scp \
-    sftp \
-    ssh \
-    sshd \
-    sshd_config \
-    ssh-keygen \
-    start-ssh
-
-# rsync
-PRODUCT_PACKAGES += \
-    rsync
 
 PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
 PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/common
@@ -199,6 +156,9 @@ PRODUCT_VERSION_MAINTENANCE = 0-RC0
 # Set CM_BUILDTYPE
 ifdef CM_NIGHTLY
     CM_BUILDTYPE := NIGHTLY
+endif
+ifdef CM_WEEKLY
+    CM_BUILDTYPE := WEEKLY
 endif
 ifdef CM_EXPERIMENTAL
     CM_BUILDTYPE := EXPERIMENTAL
@@ -234,5 +194,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
   ro.cm.version=$(CM_VERSION) \
   ro.modversion=$(CM_VERSION)
 
+# BT config
+PRODUCT_COPY_FILES += \
+    system/bluetooth/data/main.conf:system/etc/bluetooth/main.conf
+
+# T-Mobile theme engine
+include vendor/cm/config/themes_common.mk
 
 -include $(WORKSPACE)/hudson/image-auto-bits.mk
